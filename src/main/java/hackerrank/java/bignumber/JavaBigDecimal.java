@@ -3,6 +3,7 @@ package hackerrank.java.bignumber;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class JavaBigDecimal {
 
@@ -12,17 +13,12 @@ public class JavaBigDecimal {
             int n = sc.nextInt();
             String[] s = new String[n + 2];
 
-            for (int i = 0; i < n; i++) {
-                s[i] = sc.next();
-            }
-
+            IntStream.range(0, n).forEach(i -> s[i] = sc.next());
             sc.close();
 
             Arrays.sort(s, 0, n, (a, b) -> new BigDecimal(b).compareTo(new BigDecimal(a)));
 
-            for (int i = 0; i < n; i++) {
-                System.out.println(s[i]);
-            }
+            IntStream.range(0, n).forEach(i -> System.out.println(s[i]));
         }
     }
 }
