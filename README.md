@@ -21,12 +21,14 @@ Tests are written using JUnit 5 and located in `src/test/java`, mirroring the so
   - [Apple and Orange](https://www.hackerrank.com/challenges/apple-and-orange/problem) - [Solution](src/main/java/hackerrank/algorithms/implementation/AppleAndOrange.java#L42)
   - [Breaking the Records](https://www.hackerrank.com/challenges/breaking-best-and-worst-records/problem) - [Solution](src/main/java/hackerrank/algorithms/implementation/BreakingTheRecords.java#L80)
   - [Grading Students](https://www.hackerrank.com/challenges/grading/problem) - [Solution](src/main/java/hackerrank/algorithms/implementation/GradingStudents.java#L50)
+  - [Matrix Layer Rotation](https://www.hackerrank.com/challenges/matrix-rotation-algo/problem) - [Solution](src/main/java/hackerrank/algorithms/implementation/MatrixLayerRotation.java#L116)
   - [Number Line Jumps](https://www.hackerrank.com/challenges/kangaroo/problem) - [Solution](src/main/java/hackerrank/algorithms/implementation/NumberLineJumps.java#L37)
 
 - **Sorting**
   - [Big Sort](https://www.hackerrank.com/challenges/big-sorting/problem) - [Solution](src/main/java/hackerrank/algorithms/sorting/BigSort.java#L35)
   - [Insertion Sort Part 1](https://www.hackerrank.com/challenges/insertionsort1/problem) - [Solution](src/main/java/hackerrank/algorithms/sorting/InsertionSortPart1.java#L56)
   - [Insertion Sort Part 2](https://www.hackerrank.com/challenges/insertionsort2/problem) - [Solution](src/main/java/hackerrank/algorithms/sorting/InsertionSortPart2.java#L55)
+  - [Insertion Sort Advanced Analysis](https://www.hackerrank.com/challenges/insertion-sort/problem) - [Solution](src/main/java/hackerrank/algorithms/sorting/InsertionSortAdvancedAnalysis.java#L28) - Uses Binary Indexed Tree (Fenwick Tree) to count inversions efficiently
 
 - **Strings**
   - [Alternating Characters](https://www.hackerrank.com/challenges/alternating-characters/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/AlternatingCharacters.java#L39)
