@@ -3,114 +3,138 @@ package hackerrank.algorithms.strings;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
+import java.util.Queue;
 import java.util.stream.Stream;
-
-import static java.util.Comparator.comparing;
 
 public class DeterminingDNAHealth {
 
-    class Result {
+    static class Result {
 
-        // some tests cases are falling for timeout
-        public static int determineDnaHealth(List<String> genes, List<Integer> values, int first, int last, String d) {
-            Integer health = 0;
+        /**
+         * Returns the total health for a single DNA strand.
+         * Uses Aho-Corasick for O(|d| + matches) complexity.
+         */
+        public static long determineDnaHealth(AhoCorasick ac, int first, int last, String d) {
+            return ac.calculateHealth(first, last, d);
+        }
+    }
 
-            Map<String, GemValueMap> map = new HashMap<>();
+    /**
+     * Aho-Corasick automaton for multi-pattern matching.
+     * Complexity: O(|text| + |matches|) per strand.
+     */
+    static class AhoCorasick {
+        private final Node root = new Node();
+        private final List<String> genes;
+        private final List<Integer> health;
 
-            for (int i = first; i <= last; i++) {
-                Integer value = values.get(i);
-                String gen = genes.get(i);
-                String key = gen + value;
-                map.put(key, new GemValueMap(key, gen, value));
+        AhoCorasick(List<String> genes, List<Integer> health) {
+            this.genes = genes;
+            this.health = health;
+            buildTrie();
+            buildFailureLinks();
+        }
+
+        private void buildTrie() {
+            for (int i = 0; i < genes.size(); i++) {
+                String gene = genes.get(i);
+                if (gene.isEmpty()) continue;
+                Node current = root;
+                for (int j = 0; j < gene.length(); j++) {
+                    char c = gene.charAt(j);
+                    current = current.children.computeIfAbsent(c, k -> new Node());
+                }
+                current.outputs.add(new int[]{i, health.get(i)});
             }
+        }
 
-            for (int i = 0; i < d.length(); i++) {
-                for (Map.Entry<String, GemValueMap> m : map.entrySet()) {
-                    GemValueMap gvm = m.getValue();
-                    int endIndex = Math.min(i + gvm.getGen().length(), d.length());
-                    String gen = d.substring(i, endIndex);
-                    String key = gen + gvm.getValue();
+        private void buildFailureLinks() {
+            Queue<Node> queue = new ArrayDeque<>();
+            for (Node child : root.children.values()) {
+                child.fail = root;
+                queue.add(child);
+            }
+            while (!queue.isEmpty()) {
+                Node current = queue.poll();
+                for (Map.Entry<Character, Node> entry : current.children.entrySet()) {
+                    char c = entry.getKey();
+                    Node child = entry.getValue();
+                    queue.add(child);
+                    Node fail = current.fail;
+                    while (fail != null && !fail.children.containsKey(c)) {
+                        fail = fail.fail;
+                    }
+                    child.fail = (fail == null) ? root : fail.children.get(c);
+                    child.outputs.addAll(child.fail.outputs);
+                }
+            }
+        }
 
-                    if (map.containsKey(key)) {
-                        health += gvm.getValue();
+        long calculateHealth(int first, int last, String d) {
+            return calculateHealth(first, last, d.toCharArray());
+        }
+
+        long calculateHealth(int first, int last, char[] text) {
+            long total = 0;
+            Node current = root;
+            for (char c : text) {
+                while (current != null && !current.children.containsKey(c)) {
+                    current = current.fail;
+                }
+                current = (current == null) ? root : current.children.get(c);
+                for (int[] out : current.outputs) {
+                    int idx = out[0];
+                    if (idx >= first && idx <= last) {
+                        total += out[1];
                     }
                 }
             }
-
-            return health;
+            return total;
         }
 
-    }
-
-    static class GemValueMap {
-        private final String key;
-        private final String gen;
-        private final Integer value;
-
-        GemValueMap(String key, String gen, Integer value) {
-            this.key = key;
-            this.gen = gen;
-            this.value = value;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public String getGen() {
-            return gen;
-        }
-
-        public Integer getValue() {
-            return value;
+        static class Node {
+            final Map<Character, Node> children = new HashMap<>();
+            Node fail;
+            final List<int[]> outputs = new ArrayList<>();
         }
     }
 
-    public class Solution {
+    public static class Solution {
         public static void main(String[] args) throws IOException {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-            int n = Integer.parseInt(bufferedReader.readLine().trim());
+            Integer.parseInt(bufferedReader.readLine().trim()); // n
 
             List<String> genes = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
                     .toList();
 
-            List<Integer> values = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            List<Integer> health = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
                     .map(Integer::parseInt)
                     .toList();
 
             int s = Integer.parseInt(bufferedReader.readLine().trim());
 
-            List<Integer> healths = new ArrayList<>();
+            long minHealth = Long.MAX_VALUE;
+            long maxHealth = Long.MIN_VALUE;
+            AhoCorasick ac = new AhoCorasick(genes, health);
 
-            IntStream.range(0, s).forEach(sItr -> {
-                try {
-                    String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+            for (int i = 0; i < s; i++) {
+                String[] parts = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ", 3);
+                int first = Integer.parseInt(parts[0]);
+                int last = Integer.parseInt(parts[1]);
+                String d = parts[2];
 
-                    int first = Integer.parseInt(firstMultipleInput[0]);
+                long h = Result.determineDnaHealth(ac, first, last, d);
+                minHealth = Math.min(minHealth, h);
+                maxHealth = Math.max(maxHealth, h);
+            }
 
-                    int last = Integer.parseInt(firstMultipleInput[1]);
-
-                    String d = firstMultipleInput[2];
-
-                    int health = Result.determineDnaHealth(genes, values, first, last, d);
-
-                    healths.add(health);
-
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            });
-
-            int unhealthiest = healths.stream().min(comparing(Integer::valueOf)).get();
-            int healthiest = healths.stream().max(comparing(Integer::valueOf)).get();
-
-            System.out.println(unhealthiest + " " + healthiest);
+            System.out.println(minHealth + " " + maxHealth);
 
             bufferedReader.close();
         }
