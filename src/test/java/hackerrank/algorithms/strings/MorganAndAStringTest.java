@@ -1,10 +1,9 @@
 package hackerrank.algorithms.strings;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import static com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOut;
@@ -29,25 +28,13 @@ class MorganAndAStringTest {
 
     @Test
     void runCase07() throws Exception {
-        InputStream inputStream = MorganAndAStringTest.class
-                .getResourceAsStream("/morgan-and-a-string-case-07-imput.txt");
-        if (inputStream == null) {
-            throw new IOException("Resource file not found: morgan-and-a-string-case-07-imput.txt");
-        }
+        var loader = MorganAndAStringTest.class.getClassLoader();
+        byte[] inputBytes = IOUtils.resourceToByteArray("morgan-and-a-string-case-07-imput.txt", loader);
+        String expected = IOUtils.resourceToString("morgan-and-a-string-case-07-output.txt", StandardCharsets.UTF_8, loader).strip();
 
-        InputStream expectedStream = MorganAndAStringTest.class
-                .getResourceAsStream("/morgan-and-a-string-case-07-output.txt");
-        if (expectedStream == null) {
-            throw new IOException("Resource file not found: morgan-and-a-string-case-07-output.txt");
-        }
-
-        byte[] inputBytes = inputStream.readAllBytes();
         System.setIn(new ByteArrayInputStream(inputBytes));
 
         String actual = tapSystemOut(() -> MorganAndAString.Solution.main(new String[]{}));
-
-        String expected = new String(expectedStream.readAllBytes(), StandardCharsets.UTF_8).strip();
-
         assertEquals(expected, actual.strip());
     }
 }

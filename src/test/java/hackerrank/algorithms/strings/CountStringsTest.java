@@ -1,10 +1,9 @@
 package hackerrank.algorithms.strings;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import static com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOut;
@@ -26,23 +25,13 @@ class CountStringsTest {
 
     @Test
     void runCase07() throws Exception {
-        InputStream inputStream = CountStringsTest.class
-                .getResourceAsStream("/count-strings-case-07-input.txt");
-        if (inputStream == null) {
-            throw new IOException("Resource file not found: count-strings-case-07-input.txt");
-        }
-        InputStream expectedStream = CountStringsTest.class
-                .getResourceAsStream("/count-strings-case-07-output.txt");
-        if (expectedStream == null) {
-            throw new IOException("Resource file not found: count-strings-case-07-output.txt");
-        }
+        var loader = CountStringsTest.class.getClassLoader();
+        byte[] inputBytes = IOUtils.resourceToByteArray("count-strings-case-07-input.txt", loader);
+        String expected = IOUtils.resourceToString("count-strings-case-07-output.txt", StandardCharsets.UTF_8, loader).strip();
 
-        byte[] inputBytes = inputStream.readAllBytes();
         System.setIn(new ByteArrayInputStream(inputBytes));
 
         String actual = tapSystemOut(() -> CountStrings.Solution.main(new String[]{}));
-        String expected = new String(expectedStream.readAllBytes(), StandardCharsets.UTF_8).strip();
-
         String[] actualLines = actual.strip().split("\n");
         String[] expectedLines = expected.split("\n");
         for (int i = 0; i < Math.max(actualLines.length, expectedLines.length); i++) {

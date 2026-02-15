@@ -1,10 +1,9 @@
 package hackerrank.algorithms.sorting;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import static com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOut;
@@ -32,14 +31,9 @@ class InsertionSortAdvancedAnalysisTest {
 
     @Test
     void runCase13() throws Exception {
-        InputStream inputStream = InsertionSortAdvancedAnalysisTest.class
-                .getResourceAsStream("/insertion-sort-advanced-analysis-case-13.txt");
-        
-        if (inputStream == null) {
-            throw new IOException("Resource file not found: insertion-sort-advanced-analysis-case-13.txt");
-        }
+        var loader = InsertionSortAdvancedAnalysisTest.class.getClassLoader();
+        byte[] inputBytes = IOUtils.resourceToByteArray("insertion-sort-advanced-analysis-case-13.txt", loader);
 
-        byte[] inputBytes = inputStream.readAllBytes();
         System.setIn(new ByteArrayInputStream(inputBytes));
 
         String actual = tapSystemOut(() -> InsertionSortAdvancedAnalysis.Solution.main(new String[]{}));
