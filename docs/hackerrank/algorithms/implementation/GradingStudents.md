@@ -14,30 +14,20 @@ For each grade, if it is &lt; 38 return it as is. Otherwise find the next multip
 
 - **Rule:** Grade &lt; 38 → no round. Grade ≥ 38 → round to next multiple of 5 only if the difference is ≤ 2 (e.g. 38→40, 73→75; 76 stays 76).
 
-- **Entry:** Only grades ≥ 38 go through rounding:
+- **Result.gradingStudents:**
 
 ```java
-return grades.stream()
-        .map(grade -> grade >= 38 ? round(grade) : grade)
-        .collect(toList());
-```
-
-- **Finding next multiple and steps:** Increment until we hit a multiple of 5 and count steps; round only if steps ≤ 2:
-
-```java
-private static Integer round(Integer grade) {
-    int roundedGrade = grade;
-    int count = 0;
-    while (roundedGrade % 5 != 0) {
-        roundedGrade++;
-        count++;
-    }
-    if (count <= 2) return roundedGrade;
-    return grade;
+public static List<Integer> gradingStudents(List<Integer> grades) {
+    return grades.stream()
+            .map(grade -> {
+                if (grade >= 38) {
+                    return round(grade);
+                }
+                return grade;
+            })
+            .collect(toList());
 }
 ```
-
-- **Behavior:** 38,39 → 40 (1–2 steps); 40 → 40 (0 steps); 73,74 → 75; 76 → 76 (4 steps). No grade is ever lowered.
 
 ## Time and Space Complexity
 

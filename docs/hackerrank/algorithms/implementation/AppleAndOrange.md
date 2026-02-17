@@ -14,25 +14,16 @@ For each fruit, add the tree position to the fall distance to get the landing po
 
 - **Landing position:** Apple tree at `a`, each apple falls distance `d` → lands at `a + d`. Orange tree at `b` → lands at `b + d`. House is [s, t]; we count fruits whose landing position satisfies s ≤ p ≤ t.
 
-- **Helper:** One method counts fruits on [s, t] for a given tree position and list of fall distances:
+- **Result.countApplesAndOranges:**
 
 ```java
-private static long count(int s, int t, int ab, List<Integer> fruits) {
-    return fruits.stream()
-            .map(fruit -> ab + fruit)           // landing position
-            .filter(fruit -> fruit >= s && fruit <= t)
-            .count();
+public static void countApplesAndOranges(int s, int t, int a, int b, List<Integer> apples, List<Integer> oranges) {
+    System.out.println(count(s, t, a, apples));
+    System.out.println(count(s, t, b, oranges));
 }
 ```
 
-- **Usage:** Call it for apples (tree `a`) and oranges (tree `b`):
-
-```java
-System.out.println(count(s, t, a, apples));
-System.out.println(count(s, t, b, oranges));
-```
-
-- **Edge cases:** Inclusive bounds (s and t count). Empty lists → 0. No special handling for tree vs house position.
+- **Edge cases:** Inclusive bounds (s and t count). Empty lists → 0.
 
 ## Time and Space Complexity
 

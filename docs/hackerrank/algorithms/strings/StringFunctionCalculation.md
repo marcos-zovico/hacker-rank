@@ -16,21 +16,18 @@ Build a Suffix Automaton (SAM). Each state corresponds to a set of substrings (t
 
 - **maxLengthTimesCount:** After building SAM, sort states by len (counting sort). For each state, add its count to count[link[v]]. Then max = max(len[i] * count[i]) over all states.
 
-- **Code (extend and max):**
+- **Result.maxValue:**
 
 ```java
-void extend(int c) {
-    int cur = size++;
-    len[cur] = len[last] + 1;
-    count[cur] = 1;
-    int p = last;
-    while (p != -1 && next[p][c] == 0) {
-        next[p][c] = cur;
-        p = link[p];
+public static int maxValue(String t) {
+    int n = t.length();
+    if (n == 0) return 0;
+    SuffixAutomaton sam = new SuffixAutomaton(n);
+    for (int i = 0; i < n; i++) {
+        sam.extend(t.charAt(i) & 0xFF);
     }
-    // ... clone state if needed, set link[cur], update last
+    return (int) sam.maxLengthTimesCount();
 }
-// Then: sort by len, propagate count via link; return max len[i]*count[i]
 ```
 
 ## Time and Space Complexity

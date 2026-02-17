@@ -13,22 +13,32 @@ Take the rightmost element as the value to insert. Scan from right to left; when
 ## Solution Details
 
 - **Context:** We assume the prefix arr[0..n−2] is already sorted. The last element arr[n−1] is the one we “insert” into that prefix. This is exactly one step of insertion sort: take the rightmost element and merge it into the sorted region to its left.
-- **Rightmost value:** Save `rightmost = arr[n-1]`. We will compare this value with elements to its left and shift those elements right until we find the correct slot for `rightmost`. Core loop (from the solution):
+- **Result.insertionSort1:**
 
 ```java
-Integer rightmost = arr.get(n - 1);
-for (int i = n - 1; i >= 0; i--) {
-    int num = i > 0 ? arr.get(i - 1) : arr.get(i);
-    if (rightmost < num) {
-        arr.set(i, num);
-        if (i == 0) arr.set(i, rightmost);
-        printList(arr);
-        if (i == 0) break;
-    }
-    if (rightmost > num) {
-        arr.set(i, rightmost);
-        printList(arr);
-        break;
+public static void insertionSort1(int n, List<Integer> arr) {
+    Integer rightmost = arr.get(n - 1);
+
+    for (int i = n - 1; i >= 0; i--) {
+
+        int num = i > 0 ? arr.get(i - 1) : arr.get(i);
+
+        if (rightmost < num) {
+            arr.set(i, num);
+
+            if (i == 0) {
+                arr.set(i, rightmost);
+                printList(arr);
+                break;
+            }
+            printList(arr);
+        }
+
+        if (rightmost > num) {
+            arr.set(i, rightmost);
+            printList(arr);
+            break;
+        }
     }
 }
 ```

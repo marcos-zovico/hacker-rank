@@ -16,12 +16,21 @@ Sum multiples of 3 below n, plus sum multiples of 5 below n, minus sum multiples
 
 - **Sum of multiples of k below n:** The multiples are k, 2k, 3k, ... up to the largest &lt; n. Number of terms p = (n-1)/k. Sum = k(1+2+...+p) = k·p·(p+1)/2.
 
+- **Solution.main:**
+
 ```java
-private static long sumOfMultiples(int k, int n) {
-    long p = (n - 1) / k;
-    return k * p * (p + 1) / 2;
+public static void main(String[] args) {
+    Scanner in = new Scanner(System.in);
+    int t = in.nextInt();
+
+    for (int i = 0; i < t; i++) {
+        int n = in.nextInt();
+        long count = sumOfMultiples(3, n) +
+                sumOfMultiples(5, n) -
+                sumOfMultiples(15, n);
+        System.out.println(count);
+    }
 }
-// Answer: sumOfMultiples(3, n) + sumOfMultiples(5, n) - sumOfMultiples(15, n);
 ```
 
 ## Time and Space Complexity

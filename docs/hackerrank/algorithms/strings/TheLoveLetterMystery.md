@@ -14,15 +14,22 @@ Compare pairs from both ends. For each pair, the cost to make them equal is the 
 
 - **Why absolute difference:** We can only decrease. To make two letters equal we reduce the larger one; the number of steps is |char(i) − char(j)|. We don't need to choose which one to change because we're only counting steps.
 
-- **Code:** Walk from both ends toward the center:
+- **Result.theLoveLetterMystery:**
 
 ```java
-if (s.equals(new StringBuilder(s).reverse().toString())) return 0;
-int minOps = 0;
-for (int i = 0, j = s.length() - 1; i < s.length() / 2; i++, j--) {
-    minOps += Math.abs(s.charAt(i) - s.charAt(j));
+public static int theLoveLetterMystery(String s) {
+    int minOps = 0;
+    String reversed = new StringBuilder(s).reverse().toString();
+
+    if (s.equals(reversed)) {
+        return minOps;
+    }
+
+    for (int i = 0, j = s.length() - 1; i < s.length() / 2; i++, j--) {
+        minOps += Math.abs(s.charAt(i) - s.charAt(j));
+    }
+    return minOps;
 }
-return minOps;
 ```
 
 ## Time and Space Complexity

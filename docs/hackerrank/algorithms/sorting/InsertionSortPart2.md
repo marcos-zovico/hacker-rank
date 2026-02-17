@@ -12,12 +12,16 @@ For each position i from 1 to n−1, treat the prefix [0..i−1] as sorted and i
 
 ## Solution Details
 
-- **Invariant:** After processing index i (where i runs from 1 to n−1), the prefix arr[0..i] is sorted. So we start with arr[0] (one element, trivially sorted) and repeatedly extend the sorted prefix by one element. Code:
+- **Invariant:** After processing index i (where i runs from 1 to n−1), the prefix arr[0..i] is sorted. So we start with arr[0] (one element, trivially sorted) and repeatedly extend the sorted prefix by one element.
+
+- **Result.insertionSort2:**
 
 ```java
-for (int i = 1; i < n; i++) {
-    sort(i, arr);   // insert arr[i] into sorted arr[0..i-1], same idea as Part 1
-    printList(arr);
+public static void insertionSort2(int n, List<Integer> arr) {
+    for (int i = 1; i < n; i++) {
+        sort(i, arr);
+        printList(arr);
+    }
 }
 ```
 

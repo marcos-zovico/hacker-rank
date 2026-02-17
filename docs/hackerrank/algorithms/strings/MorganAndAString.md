@@ -14,18 +14,41 @@ Greedy: at each step, take the character from whichever string has the smaller n
 
 - **When chars differ:** Take from the string whose current character is smaller. When equal, we must look ahead: compare suffixes to see which choice leads to a smaller result. The solution uses `compareAndBatch`: find the first position where the two suffixes differ; if one is lexicographically smaller, take from that string; if one suffix is a prefix of the other, prefer the longer one. Batch multiple characters when possible to avoid quadratic behavior on long equal runs.
 
-- **Code (main loop):**
+- **Result.morganAndString:**
 
 ```java
-while (i < n || j < m) {
-    if (i >= n) take from b;
-    else if (j >= m) take from a;
-    else if (ac[i] < bc[j]) take from a;
-    else if (ac[i] > bc[j]) take from b;
-    else {
-        int take = compareAndBatch(ac, i, n, bc, j, m, out, pos);
-        // take positive = from a, negative = from b; batch size = |take|
+public static String morganAndString(String a, String b) {
+    int n = a.length();
+    int m = b.length();
+    char[] ac = a.toCharArray();
+    char[] bc = b.toCharArray();
+    char[] out = new char[n + m];
+    int i = 0, j = 0;
+    int pos = 0;
+
+    while (i < n || j < m) {
+        if (i >= n) {
+            out[pos++] = bc[j++];
+        } else if (j >= m) {
+            out[pos++] = ac[i++];
+        } else if (ac[i] < bc[j]) {
+            out[pos++] = ac[i++];
+        } else if (ac[i] > bc[j]) {
+            out[pos++] = bc[j++];
+        } else {
+            int take = compareAndBatch(ac, i, n, bc, j, m, out, pos);
+            if (take > 0) {
+                for (int t = 0; t < take; t++) {
+                    out[pos++] = ac[i++];
+                }
+            } else {
+                for (int t = 0; t < -take; t++) {
+                    out[pos++] = bc[j++];
+                }
+            }
+        }
     }
+    return new String(out);
 }
 ```
 

@@ -14,16 +14,22 @@ One pass: whenever the current character equals the previous one, count it as a 
 
 - **Idea:** We want no adjacent equal characters. So for each run of identical letters we keep one and "delete" the rest. Counting deletions is the same as counting extra consecutive duplicates.
 
-- **Code:** Track the last character; if current equals last, increment count:
+- **Result.alternatingCharacters:**
 
 ```java
-char last = '\u0000';
-int count = 0;
-for (char c : charArray) {
-    if (last == c) count++;
-    last = c;
+public static int alternatingCharacters(String s) {
+    char[] charArray = s.toCharArray();
+    char last = '\u0000';
+    int count = 0;
+
+    for (char c : charArray) {
+        if (last == c) {
+            count++;
+        }
+        last = c;
+    }
+    return count;
 }
-return count;
 ```
 
 ## Time and Space Complexity

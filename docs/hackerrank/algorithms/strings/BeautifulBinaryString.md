@@ -12,20 +12,25 @@ Scan left to right. Whenever we see "010", change one character (e.g. the middle
 
 ## Solution Details
 
-- **Greedy:** Replacing the middle '1' in "010" with '0' gives "000" (no new "010"). Replacing the middle with '1' gives "011". One flip per occurrence is enough. After fixing, skip 3 positions so we don't count the same pattern again.
+- **Greedy:** Replacing the middle '1' in "010" with '0' gives "000" (no new "010"). One flip per occurrence is enough. After fixing, skip 3 positions so we don't count the same pattern again.
 
-- **Code:**
+- **Result.beautifulBinaryString:**
 
 ```java
-for (int i = 0; i < b.length(); ) {
-    int endIndex = Math.min(i + 3, b.length());
-    String sub = b.substring(i, endIndex);
-    if ("010".equals(sub)) {
-        minSteps++;
-        i += 3;
-    } else {
-        i++;
+public static int beautifulBinaryString(String b) {
+    int minSteps = 0;
+
+    for (int i = 0; i < b.length(); ) {
+        int endIndex = Math.min(i + 3, b.length());
+        String sub = b.substring(i, endIndex);
+        if ("010".equals(sub)) {
+            minSteps++;
+            i += 3;
+        } else {
+            i++;
+        }
     }
+    return minSteps;
 }
 ```
 

@@ -14,17 +14,29 @@ If the string is already a palindrome, return −1. Otherwise try removing each 
 
 - **Check:** Reverse the string and compare for equality to test palindrome. For each index i, build string without that character and test if it equals its reverse.
 
-- **Code:**
+- **Result.palindromeIndex:**
 
 ```java
-if (s.equals(new StringBuilder(s).reverse().toString())) return -1;
-for (int i = 0; i < length; i++) {
-    StringBuilder s1 = new StringBuilder(s).deleteCharAt(i);
-    if (s1.toString().contentEquals(new StringBuilder(s1).reverse())) {
-        return i;
+public static int palindromeIndex(String s) {
+    int result = -1;
+    int length = s.length();
+
+    String reverse = new StringBuilder(s).reverse().toString();
+
+    if (s.equals(reverse)) {
+        return result;
     }
+
+    for (int i = 0; i < length; i++) {
+        StringBuilder s1 = new StringBuilder(s).deleteCharAt(i);
+        StringBuilder s2 = new StringBuilder(s1).reverse();
+
+        if (s1.toString().contentEquals(s2)) {
+            return i;
+        }
+    }
+    return result;
 }
-return -1;
 ```
 
 ## Time and Space Complexity

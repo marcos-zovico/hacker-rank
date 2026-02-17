@@ -15,18 +15,29 @@ Count inversions using a Fenwick tree (Binary Indexed Tree): process elements fr
 - **Inversions and insertion sort:** An inversion is a pair (i, j) with i < j and arr[i] > arr[j]. Insertion sort shifts an element left once for each larger element that was to its left. So the total number of shifts is exactly the number of inversions. We only need to count inversions.
 - **Idea:** Process the array left to right. When we are at index i and value v = arr[i], any element already seen (indices 0..i−1) that is greater than v forms an inversion with (i, v). So for each i, we need to count how many of the already-seen elements have value > v. If we maintain a multiset of values seen so far, “count of elements already seen that are greater than v” is (number of elements seen) − (number of elements seen that are ≤ v). Number of elements seen is i. So we need a data structure that can quickly answer: how many of the values we’ve seen are ≤ x? Then inversions for this step = i − countSeenLeq(v).
 - **Fenwick tree (BIT):** We use a Fenwick tree over the value domain [1, MAXVAL]. The tree stores frequencies: after we “add” value x, the tree records one occurrence of x. `read(x)` returns the prefix sum of frequencies for indices 1..x, i.e. how many values in the range [1, x] have been added so far. `update(x)` adds 1 to the frequency at index x (and propagates in the BIT). Both operations are O(log MAXVAL).
-- **Algorithm:** Initialize the tree to zeros. For i = 0 to n−1: (1) value v = arr[i]. (2) Inversions involving index i and some j < i with arr[j] > v = number of already-seen values strictly greater than v = i − read(v). Add this to the total. (3) update(v) to record that we have seen one more occurrence of v. After processing all indices, the total is the inversion count:
+- **Algorithm:** Initialize the tree to zeros. For i = 0 to n−1: (1) value v = arr[i]. (2) Inversions involving index i and some j < i with arr[j] > v = number of already-seen values strictly greater than v = i − read(v). Add this to the total. (3) update(v) to record that we have seen one more occurrence of v. After processing all indices, the total is the inversion count.
+
+- **Result.insertionSort:**
 
 ```java
-Arrays.fill(fenwickTree, 0);
-long sum = 0;
-for (int i = 0; i < size; i++) {
-    int value = arr.get(i);
-    int count = read(value);
-    update(value);
-    sum += (i - count);
+public static long insertionSort(List<Integer> arr) {
+    int size = arr.size();
+    if (size <= 1) {
+        return 0;
+    }
+
+    Arrays.fill(fenwickTree, 0);
+    long sum = 0;
+
+    for (int i = 0; i < size; i++) {
+        int value = arr.get(i);
+        int count = read(value);
+        update(value);
+        sum += (i - count);
+    }
+
+    return sum;
 }
-return sum;
 ```
 
 - **read/update:** `read(x)` = prefix sum (count of values ≤ x); `update(x)` adds 1 at x. Both use BIT step `x & (-x)`.

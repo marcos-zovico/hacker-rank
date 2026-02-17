@@ -18,6 +18,14 @@ Build an Aho-Corasick automaton from the genes. For each strand, run the automat
 
 - **Health sum:** `calculateHealth(first, last, d)` walks the automaton over d; at each node it adds health for each output whose gene index is between first and last.
 
+- **Result.determineDnaHealth:**
+
+```java
+public static long determineDnaHealth(AhoCorasick ac, int first, int last, String d) {
+    return ac.calculateHealth(first, last, d);
+}
+```
+
 ## Time and Space Complexity
 
 - **Time:** O(total length of genes + total length of strands + matches)

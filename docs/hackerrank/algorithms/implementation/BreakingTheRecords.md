@@ -14,43 +14,26 @@ Walk through the scores once, keeping current min and max. When a score is great
 
 - **Meaning of “break”:** First score sets both records. Later: strictly greater than current max → break high; strictly less than current min → break low. Ties do not count.
 
-- **State:** We keep current min, max, and two break counters. Update logic:
+- **Result.breakingRecords:**
 
 ```java
-void update(int score) {
-    if (score > max) {
-        max = score;
-        maxBreaks++;
+public static List<Integer> breakingRecords(List<Integer> scores) {
+    if (scores == null || scores.isEmpty() || scores.size() == 1) {
+        return List.of(0, 0);
     }
-    if (score < min) {
-        min = score;
-        minBreaks++;
+
+    var iterator = scores.iterator();
+    int firstScore = iterator.next();
+    RecordState state = RecordState.init(firstScore);
+
+    while (iterator.hasNext()) {
+        int score = iterator.next();
+        state.update(score);
     }
+
+    return List.of(state.maxBreaks(), state.minBreaks());
 }
 ```
-
-- **Initialization:** First score defines both records; break counts start at 0:
-
-```java
-private RecordState(int firstScore) {
-    this.min = firstScore;
-    this.max = firstScore;
-    this.minBreaks = 0;
-    this.maxBreaks = 0;
-}
-```
-
-- **Single pass:** Iterate over scores, update state, then return [maxBreaks, minBreaks]:
-
-```java
-RecordState state = RecordState.init(iterator.next());
-while (iterator.hasNext()) {
-    state.update(iterator.next());
-}
-return List.of(state.maxBreaks(), state.minBreaks());
-```
-
-- **Edge cases:** null, empty, or size 1 → return `List.of(0, 0)`.
 
 ## Time and Space Complexity
 

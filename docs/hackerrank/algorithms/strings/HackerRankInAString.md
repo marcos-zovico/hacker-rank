@@ -14,17 +14,19 @@ One pass: maintain an index into the target "hackerrank". For each character of 
 
 - **Subsequence:** We must find h, then a, then c, then k, then e, then r, then r, then a, then n, then k in that order. No need to backtrack: greedy left-to-right works.
 
-- **Code:**
+- **Result.hackerrankInString:**
 
 ```java
-private static final String HR = "hackerrank";
-int hrIndex = 0;
-for (int i = 0; i < s.length() && hrIndex < HR.length(); i++) {
-    if (s.charAt(i) == HR.charAt(hrIndex)) {
-        hrIndex++;
+public static String hackerrankInString(String s) {
+    final String target = "hackerrank";
+    int hrIndex = 0;
+    for (int i = 0; i < s.length() && hrIndex < target.length(); i++) {
+        if (s.charAt(i) == target.charAt(hrIndex)) {
+            hrIndex++;
+        }
     }
+    return hrIndex == target.length() ? "YES" : "NO";
 }
-return hrIndex == HR.length() ? "YES" : "NO";
 ```
 
 ## Time and Space Complexity

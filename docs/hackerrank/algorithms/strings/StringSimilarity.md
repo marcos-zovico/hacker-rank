@@ -14,16 +14,20 @@ Use the Z-algorithm: compute the Z-array where Z[i] is the length of the longest
 
 - **Z-array:** Z[i] = length of longest prefix match between S and S[i..]. So similarity between S and suffix starting at i is Z[i]. We compute Z in O(n) with the standard Z-algorithm (maintain [l, r] window and use previously computed Z values when i ≤ r).
 
-- **Code (main):**
+- **Result.stringSimilarity:**
 
 ```java
-int[] z = computeZArray(s);
-long sum = n;
-for (int i = 1; i < n; i++) sum += z[i];
-return sum;
+public static long stringSimilarity(String s) {
+    int n = s.length();
+    if (n == 0) return 0;
+    int[] z = computeZArray(s);
+    long sum = n;
+    for (int i = 1; i < n; i++) {
+        sum += z[i];
+    }
+    return sum;
+}
 ```
-
-- **Z computation:** When i ≤ r, initialize z[i] from z[i−l]; then extend by comparing S[z[i]] with S[i+z[i]]. Update l, r when we extend past r.
 
 ## Time and Space Complexity
 

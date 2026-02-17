@@ -18,7 +18,16 @@ Parse the regex into an NFA (Thompson construction: symbol, concatenation, |, *)
 
 - **Count:** Let M be the transition matrix (M[i][j] = number of edges from state i to state j). (M^n)[start][j] summed over accept j gives the answer. Use binary exponentiation for M^n modulo MOD.
 
-- **Code flow:** parse → NFA; toDFA(NFA) → DFA; dfa.count(n) builds M, computes M^n, sums entries to accept states.
+- **Result.countStrings:**
+
+```java
+public static long countStrings(String regex, int len) {
+    int[] pos = {0};
+    NFA nfa = parse(regex, pos);
+    DFA dfa = toDFA(nfa);
+    return dfa.count(len);
+}
+```
 
 ## Time and Space Complexity
 

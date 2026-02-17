@@ -16,23 +16,30 @@ Dynamic programming: dp[k] = minimum cost to build the prefix of length k. Eithe
 
 - **Transition:** For each k, try: (1) dp[k] = dp[k-1] + A. (2) For length L, if s[k-L+1..k] occurs in s[0..k-L], then dp[k] = min(dp[k], dp[k-L] + B). Search for the maximum L such that the substring appears (greedy: longer copy is better when B < L*A).
 
-- **Code (idea):**
+- **Result.buildString:**
 
 ```java
-dp[0] = a;
-for (int k = 1; k < n; k++) {
-    dp[k] = dp[k-1] + a;
-    int L = lastL + 1;
-    while (L > 0) {
-        String cur = s.substring(k - L + 1, k + 1);
-        int idx = s.substring(0, k - L + 1).indexOf(cur);
-        if (idx == -1) L--;
-        else {
-            dp[k] = Math.min(dp[k], dp[k - L] + b);
-            break;
+public static int buildString(int a, int b, String s) {
+    int n = s.length();
+    int[] dp = new int[n];
+    dp[0] = a;
+    int lastL = 0;
+    for (int k = 1; k < n; ++k) {
+        dp[k] = dp[k - 1] + a;
+        int L = lastL + 1;
+        while (L > 0) {
+            String cur = s.substring(k - L + 1, k + 1);
+            int idx = s.substring(0, k - L + 1).indexOf(cur);
+            if (idx == -1)
+                L--;
+            else {
+                dp[k] = Math.min(dp[k], dp[k - L] + b);
+                break;
+            }
         }
+        lastL = L;
     }
-    lastL = L;
+    return dp[n - 1];
 }
 ```
 

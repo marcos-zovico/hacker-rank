@@ -16,19 +16,26 @@ Build the suffix array and LCP array. Iterate over suffixes in sorted order; for
 
 - **Enumerating distinct substrings:** For suffix starting at sa[i] with length suffixLen, the distinct new substrings are those with length from (prevLcp+1) to suffixLen. For each length len, the substring adds len characters. So we advance pos by len until pos + len >= k; then the k-th character is at offset (k - pos - 1) within that substring.
 
-- **Code (core loop):**
+- **Result.ashtonString:**
 
 ```java
-for (int i = 0; i < n; i++) {
-    int suffixLen = n - sa[i];
-    int prevLcp = (i > 0) ? lcp[i - 1] : 0;
-    for (int len = prevLcp + 1; len <= suffixLen; len++) {
-        long count = pos + len;
-        if (k <= count) {
-            return s.charAt(sa[i] + (int)(k - pos - 1));
+public static char ashtonString(String s, int k) {
+    int n = s.length();
+    int[] sa = buildSuffixArray(s);
+    int[] lcp = buildLCP(s, sa);
+    long pos = 0;
+    for (int i = 0; i < n; i++) {
+        int suffixLen = n - sa[i];
+        int prevLcp = (i > 0) ? lcp[i - 1] : 0;
+        for (int len = prevLcp + 1; len <= suffixLen; len++) {
+            long count = pos + len;
+            if (k <= count) {
+                return s.charAt(sa[i] + (int) (k - pos - 1));
+            }
+            pos = count;
         }
-        pos = count;
     }
+    return s.charAt(sa[n - 1]);
 }
 ```
 
