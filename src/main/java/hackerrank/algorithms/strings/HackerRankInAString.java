@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.stream.IntStream;
 
-public class HackerRankinAString {
+public class HackerRankInAString {
 
     class Result {
 
@@ -18,19 +18,13 @@ public class HackerRankinAString {
          * The function accepts STRING s as parameter.
          */
         public static String hackerrankInString(String s) {
-
-            // Write your code here
-            StringBuilder r = new StringBuilder();
-            for (int i = 0; i < HR.length(); i++) {
-                for (int j = i +1; j < s.length() ; j++) {
-                    if (HR.charAt(i) == s.charAt(j)){
-                       r.append(s.charAt(j));
-                        break;
-                    }
+            int hrIndex = 0;
+            for (int i = 0; i < s.length() && hrIndex < HR.length(); i++) {
+                if (s.charAt(i) == HR.charAt(hrIndex)) {
+                    hrIndex++;
                 }
             }
-
-            return HR.contentEquals(r) ? "YES" : "NO";
+            return hrIndex == HR.length() ? "YES" : "NO";
         }
 
     }
