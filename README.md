@@ -6,10 +6,16 @@ HackerRank challenges solved in Java.
 
 Each challenge is implemented in Java following the HackerRank structure. Solutions are organized in the `src/main/java` directory, with each challenge containing a `Solution` class that includes the `main` method.
 
-Tests are written using JUnit 5 and located in `src/test/java`, mirroring the source structure. Tests simulate input via `ByteArrayInputStream` and capture output using `system-lambda`. Run tests with:
+Tests are written using JUnit 5 and located in `src/test/java`, mirroring the source structure. Tests simulate input via `ByteArrayInputStream` and capture output using `system-lambda`. Run all tests:
 
 ```bash
 ./gradlew test
+```
+
+Run a single test class:
+
+```bash
+./gradlew test --tests 'hackerrank.algorithms.strings.HackerRankInAStringTest'
 ```
 
 ## Algorithms
@@ -32,10 +38,17 @@ Tests are written using JUnit 5 and located in `src/test/java`, mirroring the so
 
 - **Strings**
   - [Alternating Characters](https://www.hackerrank.com/challenges/alternating-characters/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/AlternatingCharacters.java#L39)
+  - [Ashton and String](https://www.hackerrank.com/challenges/ashton-and-string/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/AshtonAndString.java#L85)
   - [Beautiful Binary String](https://www.hackerrank.com/challenges/beautiful-binary-string/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/BeautifulBinaryString.java#L36)
+  - [Build a String](https://www.hackerrank.com/challenges/build-a-string/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/BuildAString.java#L41)
+  - [Count Strings](https://www.hackerrank.com/challenges/count-strings/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/CountStrings.java#L248)
   - [Determining DNA Health](https://www.hackerrank.com/challenges/determining-dna-health/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/DeterminingDNAHealth.java#L74)
-  - [HackerRank in a String!](https://www.hackerrank.com/challenges/hackerrank-in-a-string/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/HackerRankinAString.java#L38)
+  - [Gridland Provinces](https://www.hackerrank.com/challenges/gridland-provinces/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/GridlandProvinces.java#L165)
+  - [HackerRank in a String!](https://www.hackerrank.com/challenges/hackerrank-in-a-string/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/HackerRankInAString.java#L32)
+  - [Morgan and a String](https://www.hackerrank.com/challenges/morgan-and-a-string/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/MorganAndAString.java#L80)
   - [Palindrome Index](https://www.hackerrank.com/challenges/palindrome-index/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/PalindromeIndex.java#L10)
+  - [String Function Calculation](https://www.hackerrank.com/challenges/string-function-calculation/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/StringFunctionCalculation.java#L104)
+  - [String Similarity](https://www.hackerrank.com/challenges/string-similarity/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/StringSimilarity.java#L48)
   - [The Love-Letter Mystery](https://www.hackerrank.com/challenges/the-love-letter-mystery/problem) - [Solution](src/main/java/hackerrank/algorithms/strings/TheLoveLetterMystery.java#L36)
 
 ## Java
